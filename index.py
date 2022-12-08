@@ -47,7 +47,7 @@ class DiscordMafia(tk.Tk):
                 button_one_label="Join Discord Mafia",
                 button_one_url="https://discord.gg/social-deduction",
                 button_two_label="Show Your Pride",
-                button_two_url="hhttps://jacksonvirgo.itch.io/discord-mafia"
+                button_two_url="https://jacksonvirgo.itch.io/discord-mafia"
                 )
 
             self.rpc.set_activity(state="https://discord.gg/social-deduction", details="Wanna play all things mafia?", timestamp=self.start_timestamp, large_image='servericon', small_image='boticon', large_text='Join Discord Mafia', small_text='We have our own bot!', buttons=button)
