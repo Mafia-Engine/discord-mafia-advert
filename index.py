@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from functools import partial
 import tkinter.font as tkFont
-import time
 import DiscordRPC
 from datetime import datetime
 import calendar
@@ -49,8 +48,17 @@ class DiscordMafia(tk.Tk):
                 button_two_label="Show Your Pride",
                 button_two_url="https://jacksonvirgo.itch.io/discord-mafia"
                 )
-
-            self.rpc.set_activity(state="https://discord.gg/social-deduction", details="Wanna play all things mafia?", timestamp=self.start_timestamp, large_image='servericon', small_image='boticon', large_text='Join Discord Mafia', small_text='We have our own bot!', buttons=button)
+            
+            self.rpc.set_activity(
+                state="https://discord.gg/social-deduction", 
+                details="Wanna play all things mafia?", 
+                timestamp=self.start_timestamp, 
+                large_image='servericon', 
+                small_image='boticon', 
+                large_text='Join Discord Mafia', 
+                small_text='We have our own bot!', 
+                buttons=[button[0]]
+            )
         except:
             self.initialize_rpc()
         self.after(2000, self.set_activity)
