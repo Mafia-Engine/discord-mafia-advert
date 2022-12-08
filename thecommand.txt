@@ -1,0 +1,4 @@
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade Pillow
+python3 -m pip install pyinstaller
+pyinstaller --noconfirm --onefile --windowed --icon "icon.png" --name "Discord Mafia Advertising"  "index.py"
