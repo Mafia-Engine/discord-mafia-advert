@@ -2,8 +2,8 @@
 Usage:
     python winsetup.py py2exe
 """
-
-from setuptools import setup
+from distutils.core import setup
+import py2exe
 
 APP = ['index.py']
 DATA_FILES = ['icon.jpeg']
@@ -12,7 +12,7 @@ OPTIONS = {
 }
 
 setup(
-    app=APP,
+    windows=APP,
     data_files=DATA_FILES,
     options={'py2exe': OPTIONS},
     setup_requires=['py2exe'],
