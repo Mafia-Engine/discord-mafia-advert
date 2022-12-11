@@ -10,13 +10,13 @@ import time
 from threading import Thread
 
 
-USER_NAME = getpass.getuser()
-def set_auto_run_windows(file_path=""):
-    if file_path == "":
-        file_path = os.path.dirname(os.path.realpath(__file__))
-    bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
-    with open(bat_path + '\\' + "discord_mafia_open.bat", "w+") as bat_file:
-        bat_file.write(r'start "" "%s"' % file_path)
+# USER_NAME = getpass.getuser()
+# def set_auto_run_windows(file_path=""):
+#     if file_path == "":
+#         file_path = os.path.dirname(os.path.realpath(__file__))
+#     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
+#     with open(bat_path + '\\' + "discord_mafia_open.bat", "w+") as bat_file:
+#         bat_file.write(r'start "" "%s"' % file_path)
 
 class RPC_Class(Thread):
     def __init__(self):
@@ -64,7 +64,7 @@ class RPC_Class(Thread):
 
 class DiscordMafia():
     def __init__(self):
-        self.icon_image = PIL.Image.open("icon.png")
+        self.icon_image = PIL.Image.open("icon.jpeg")
         self.state = True
         self.attach_menu()
 
@@ -75,7 +75,6 @@ class DiscordMafia():
     
     def attach_menu(self):
         self.icon = pystray.Icon("icon", self.icon_image, "Discord Mafia", pystray.Menu(
-            # pystray.MenuItem("Run on Start", self.toggle_run_on_start, checked=lambda item: self.state),
             pystray.MenuItem("Quit", self.quit_app)
         ))
 
@@ -91,11 +90,5 @@ class DiscordMafia():
 
 if __name__ == "__main__":
     os_system = platform.system()
-    if (os_system == 'Windows'):
-        set_auto_run_windows()
-    elif (os_system == 'Darwin'):
-        print('Auto-Start Not Supported Yet')
-    else:
-        print('Auto-Start Not Supported Yet')
-    
+
     DiscordMafia()
