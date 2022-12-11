@@ -10,13 +10,13 @@ import time
 from threading import Thread
 
 
-# USER_NAME = getpass.getuser()
-# def set_auto_run_windows(file_path=""):
-#     if file_path == "":
-#         file_path = os.path.dirname(os.path.realpath(__file__))
-#     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
-#     with open(bat_path + '\\' + "discord_mafia_open.bat", "w+") as bat_file:
-#         bat_file.write(r'start "" "%s"' % file_path)
+USER_NAME = getpass.getuser()
+def set_auto_run_windows(file_path=""):
+    if file_path == "":
+        file_path = os.path.dirname(os.path.realpath(__file__))
+    bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
+    with open(bat_path + '\\' + "discord_mafia_open.bat", "w+") as bat_file:
+        bat_file.write(r'start "" "%s"' % file_path)
 
 class RPC_Class(Thread):
     def __init__(self):
@@ -90,5 +90,7 @@ class DiscordMafia():
 
 if __name__ == "__main__":
     os_system = platform.system()
+    if (os_system == "Windows"):
+        set_auto_run_windows()
 
     DiscordMafia()
