@@ -21,7 +21,7 @@ def resource_path(relative_path):
 USER_NAME = getpass.getuser()
 def set_auto_run_windows(file_path=""):
     if file_path == "":
-        file_path = os.path.dirname(os.path.realpath(__file__)) + "DiscordMafiaAdvertising.exe"
+        file_path = os.path.dirname(os.path.realpath(__file__)) + "\"Discord Mafia Advertising.exe\""
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
     with open(bat_path + '\\' + "discord_mafia_open.bat", "w+") as bat_file:
         bat_file.write(r'start "" "%s"' % file_path)
