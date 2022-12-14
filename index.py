@@ -1,3 +1,4 @@
+import sys
 import DiscordRPC
 import pystray
 import PIL.Image
@@ -8,6 +9,13 @@ from datetime import datetime
 import calendar
 import time
 from threading import Thread
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 
 USER_NAME = getpass.getuser()
@@ -64,7 +72,7 @@ class RPC_Class(Thread):
 
 class DiscordMafia():
     def __init__(self):
-        self.icon_image = PIL.Image.open("icon.jpeg")
+        self.icon_image = PIL.Image.open(resource_path("icon.jpeg"))
         self.state = True
         self.attach_menu()
 
