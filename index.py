@@ -18,13 +18,21 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
+def get_file_path_of_current():
+    file_path = os.path.dirname(os.path.realpath(__file__))
+    return file_path
+
 USER_NAME = getpass.getuser()
-def set_auto_run_windows(file_path=""):
-    if file_path == "":
-        file_path = os.path.dirname(os.path.realpath(__file__)) + "\"Discord Mafia Advertising.exe\""
-    bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
-    with open(bat_path + '\\' + "discord_mafia_open.bat", "w+") as bat_file:
-        bat_file.write(r'start "" "%s"' % file_path)
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+STARTUP_PATH = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
+
+def windows_auto_start(remove = False):
+    with open(STARTUP_PATH + '\\' + 'discord_mafia_open.bat', "w+") as bat_file:
+        if (remove):
+            bat_file.write("")
+        else: 
+            full_path = BASE_PATH + "\\Discord Mafia Advertising.exe"
+            bat_file.write(r'start "" "%s' % full_path)
 
 class RPC_Class(Thread):
     def __init__(self):
@@ -73,32 +81,30 @@ class RPC_Class(Thread):
 class DiscordMafia():
     def __init__(self):
         self.icon_image = PIL.Image.open(resource_path("icon.jpeg"))
-        self.state = True
+        self.state = False
         self.attach_menu()
-
         self.rpc = RPC_Class()
-
         self.icon.run()
 
     
     def attach_menu(self):
         self.icon = pystray.Icon("icon", self.icon_image, "Discord Mafia", pystray.Menu(
+            pystray.MenuItem("Run at Start", self.toggle_run_on_start, checked=lambda item: self.state),
             pystray.MenuItem("Quit", self.quit_app)
         ))
 
-        print("Detached")
-
     def toggle_run_on_start(self):
         self.state = not self.state
-        print("Toggle Run On Start")
+        os_system = platform.system()
+        if (os_system == "Windows"):
+            windows_auto_start(self.state)
+        else:
+            print("Toggle Run On Start")
+        
 
     def quit_app(self):
         self.icon.stop()
 
 
 if __name__ == "__main__":
-    os_system = platform.system()
-    if (os_system == "Windows"):
-        set_auto_run_windows()
-
     DiscordMafia()
