@@ -39,7 +39,6 @@ class RPC_Class(Thread):
         Thread.__init__(self)
         self.daemon = True
         self.start_timestamp = self.get_current_time()
-        self.rpc = DiscordRPC.RPC.Set_ID(app_id=1046423943352942693)
         self.start()
 
     def get_current_time(self):
@@ -56,6 +55,10 @@ class RPC_Class(Thread):
     def run(self):
         break_loop = False
         while (not break_loop):
+            
+            if (self.rpc == None):
+                self.initialize_rpc()
+
             try:
                 button = DiscordRPC.button(
                     button_one_label="Join Discord Mafia",
