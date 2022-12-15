@@ -17,22 +17,35 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-
 def get_file_path_of_current():
-    file_path = os.path.dirname(os.path.realpath(__file__))
-    return file_path
+    if getattr(sys, 'frozen', False):
+        application_path = sys._MEIPASS
+    else:
+        application_path = os.path.dirname(os.path.abspath(__file__))
+
+    return application_path
 
 USER_NAME = getpass.getuser()
-BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+BASE_PATH = get_file_path_of_current()
 STARTUP_PATH = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
 
-def windows_auto_start(remove = False):
+def has_auto_start_file():
+    os_system = platform.system()
+    if (os_system == "Windows"):
+        path = "%s\\discord_mafia_open.bat" % STARTUP_PATH
+        isExist = os.path.exists(path)
+        print(isExist)
+        return isExist
+    else:
+        return False
+
+def windows_auto_start():
     with open(STARTUP_PATH + '\\' + 'discord_mafia_open.bat', "w+") as bat_file:
-        if (remove):
-            bat_file.write("")
-        else: 
-            full_path = BASE_PATH + "\\Discord Mafia Advertising.exe"
-            bat_file.write(r'start "" "%s' % full_path)
+        full_path = BASE_PATH + "\\Discord Mafia Advertising.exe"
+        bat_file.write(r'start "" "%s' % full_path)
+
+def remove_windows_auto_start():
+    os.remove(r'%s\\discord_mafia_open.bat' % STARTUP_PATH)
 
 class RPC_Class(Thread):
     def __init__(self):
@@ -87,7 +100,7 @@ class RPC_Class(Thread):
 class DiscordMafia():
     def __init__(self):
         self.icon_image = PIL.Image.open(resource_path("icon.jpeg"))
-        self.state = False
+        self.state = has_auto_start_file()
         self.attach_menu()
         self.rpc = RPC_Class()
         self.icon.run()
@@ -102,14 +115,19 @@ class DiscordMafia():
         self.state = not self.state
         os_system = platform.system()
         if (os_system == "Windows"):
-            windows_auto_start(self.state)
+            if (self.state == True):
+                windows_auto_start()
+            else:
+                remove_windows_auto_start()
         else:
-            print("Toggle Run On Start")
+            if (self.state == True):
+                print("Adding")
+            else:
+                print("Removing")
         
 
     def quit_app(self):
         self.icon.stop()
-
 
 if __name__ == "__main__":
     DiscordMafia()
