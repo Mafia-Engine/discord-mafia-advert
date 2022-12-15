@@ -39,6 +39,7 @@ class RPC_Class(Thread):
         Thread.__init__(self)
         self.daemon = True
         self.start_timestamp = self.get_current_time()
+        self.rpc = None
         self.start()
 
     def get_current_time(self):
@@ -47,6 +48,7 @@ class RPC_Class(Thread):
         return unixtime
 
     def initialize_rpc(self):
+        print("Initializing RPC")
         try:
             self.rpc = DiscordRPC.RPC.Set_ID(app_id=1046423943352942693)
         except:
@@ -55,7 +57,6 @@ class RPC_Class(Thread):
     def run(self):
         break_loop = False
         while (not break_loop):
-            
             if (self.rpc == None):
                 self.initialize_rpc()
 
@@ -78,7 +79,9 @@ class RPC_Class(Thread):
                     buttons=[button[0]]
                 )
             except:
-                self.initialize_rpc()
+                self.rpc = None
+                self.rpc = DiscordRPC.RPC.Set_ID(app_id=1046423943352942693)
+                print("Error updating RPC", self.get_current_time())
             time.sleep(2)
 
 class DiscordMafia():
@@ -88,7 +91,6 @@ class DiscordMafia():
         self.attach_menu()
         self.rpc = RPC_Class()
         self.icon.run()
-
     
     def attach_menu(self):
         self.icon = pystray.Icon("icon", self.icon_image, "Discord Mafia", pystray.Menu(
