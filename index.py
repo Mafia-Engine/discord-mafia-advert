@@ -19,10 +19,9 @@ def resource_path(relative_path):
 
 def get_file_path_of_current():
     if getattr(sys, 'frozen', False):
-        application_path = sys._MEIPASS
-    else:
-        application_path = os.path.dirname(os.path.abspath(__file__))
-
+        application_path = os.path.dirname(os.path.realpath(sys.executable))
+    elif __file__:
+        application_path = os.path.dirname(__file__)
     return application_path
 
 USER_NAME = getpass.getuser()
