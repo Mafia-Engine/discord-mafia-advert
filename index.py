@@ -84,21 +84,19 @@ class RPC_Class(Thread):
                     state="https://discord.gg/social-deduction", 
                     details="Wanna play all things mafia?", 
                     timestamp=self.start_timestamp, 
-                    large_image='servericon', 
-                    small_image='boticon', 
+                    large_image='discordmafia', 
                     large_text='Join Discord Mafia', 
-                    small_text='We have our own bot!', 
                     buttons=[button[0]]
                 )
             except:
                 self.rpc = None
-                self.rpc = DiscordRPC.RPC.Set_ID(app_id=1046423943352942693)
+                self.rpc = DiscordRPC.RPC.Set_ID(app_id=1143833637767348304)
                 print("Error updating RPC", self.get_current_time())
             time.sleep(2)
 
 class DiscordMafia():
     def __init__(self):
-        self.icon_image = PIL.Image.open(resource_path("icon.jpeg"))
+        self.icon_image = PIL.Image.open(resource_path("icon.png"))
         self.state = has_auto_start_file()
         self.attach_menu()
         self.rpc = RPC_Class()
